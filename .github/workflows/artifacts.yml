@@ -9,16 +9,16 @@ jobs:
       matrix:
         source_branch: [sdk2013-sp, sdk2013-mp, asw, gmod]
 
-    runs-on: windows-2022
+    runs-on: windows-latest
 
     steps:
     - name: Checkout Mini Source SDK
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
-        repository: Joshua-Ashton/mini-source-sdk
+        repository: SirBerry-dev/mini-source-sdk
 
     - name: Checkout VPhysics Jolt
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         path: ${{ matrix.source_branch }}/src/vphysics_jolt
         submodules: recursive
@@ -43,7 +43,7 @@ jobs:
         msbuild jolt.sln /nodeReuse:false /t:Rebuild /p:Configuration=Release /p:Platform=x86 /m /v:minimal
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: vphysics_jolt_${{ matrix.source_branch }}_win32
         path: ${{ matrix.source_branch }}/game
@@ -56,7 +56,7 @@ jobs:
         source_branch: [sdk2013-sp, sdk2013-mp, gmod]
 
     runs-on: ubuntu-latest
-    container: debian:bullseye
+    container: debian:bookworm
 
     steps:
     - name: Install Dependencies
@@ -66,12 +66,12 @@ jobs:
         apt install -y build-essential git libstdc++6:i386 gcc-multilib g++-multilib
 
     - name: Checkout Mini Source SDK
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
-        repository: Joshua-Ashton/mini-source-sdk
+        repository: SirBerry-dev/mini-source-sdk
 
     - name: Checkout VPhysics Jolt
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         path: ${{ matrix.source_branch }}/src/vphysics_jolt
         submodules: recursive
@@ -87,7 +87,7 @@ jobs:
         make -f jolt.mak -j $(nproc)
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: vphysics_jolt_${{ matrix.source_branch }}_linux32
         path: ${{ matrix.source_branch }}/game
